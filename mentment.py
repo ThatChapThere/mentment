@@ -165,6 +165,9 @@ def main(argv):
             replacement_terms[replacement_word + 'es'] = replacement_terms[replacement_word] + 'es'
             continue
         replacement_terms[replacement_word + 's'] = replacement_terms[replacement_word] + 's'
+    
+    # Create a list so that unchanged names aren't in the final file
+    changed = []
 
     # Substitution of mented names into long names
     print('Finalising names...')
@@ -173,9 +176,11 @@ def main(argv):
         for term in specific_terms:
             if term in data[id]:
                 data[id] = replace_term(term, replacement_terms[term], data[id])
+                changed.append(id)
         for term in replacement_terms:
             if term in data[id]:
                 data[id] = replace_term(term, replacement_terms[term], data[id])
+                changed.append(id)
 
     # Write to file
     print('Saving...')
@@ -184,6 +189,7 @@ def main(argv):
         case 'bedrock':
             with open(output_file, 'w', encoding='utf-8') as f:
                 for datum in data:
+                    if datum not in changed: continue
                     f.write(f'{datum}={data[datum]}\n')
         case 'java':
             with open(output_file, 'w', encoding='utf-8') as f:

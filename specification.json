@@ -48,6 +48,8 @@
         "Carrot": "Veggie Table",
         "String": "Stringment",
         "Seeds": "Cum", 
+        "Knockback": "Knockment Back",
+        "Crossbow": "Crossment Bowment",
         "Dye": "Powder"
     },
 
@@ -65,7 +67,7 @@
         "Note Block": "Attunement Table",
         "Quit Game": "Quitment",
         "Saving world": "World savement",
-        "slain": "brutally murdered"
+        "slain": "brutallly murdered"
     },
 
     "suffixes" : [
@@ -74,6 +76,7 @@
         "ness",
         "ity",
         "ery",
+        "ent",
         "ing",
 
         "ed",
