@@ -2,12 +2,10 @@ import json
 import re
 import sys, getopt
 
-# Ment
-MENT = 'ment'
-
 with open('specification.json') as s:
     specification = json.load(s)
 
+MENT                   = specification['ment']
 specific_words         = specification['specific_words']
 specific_terms         = specification['specific_terms']
 suffixes               = specification['suffixes']
@@ -56,15 +54,47 @@ def add_word(word, counter):
     if word in counter: counter[word] += 1
     else:               counter[word] =  1
 
-def main():
-    version = 'java'
+def main(argv):
+    try:
+        opts, args = getopt.getopt(argv, 'jbi:o:', ['java', 'bedrock'])
+    except getopt.GetoptError:
+        print("Invalid options.")
+        return
+    
+    input_file = ''
+    output_file = ''
+    edition = ''
+    for opt, arg in opts:
+        if opt in ('-j', '--java'):
+            edition = 'java'
+        if opt in ('-b', '--bedrock'):
+            edition = 'bedrock'
+        if opt == '-i':
+            input_file = arg
+        if opt == '-o':
+            output_file = arg
+    if edition == '':
+        print('Please specify Java or Bedrock using -j, --java, -b or --bedrock.')
+        return
+    if input_file == '':
+        if len(args) >= 1:
+            input_file = args[0]
+        else:
+            print('Please specify an input file')
+            return
+    if output_file == '':
+        if len(args) >= 2:
+            output_file = args[1]
+        else:
+            output_file = 'output.' + {'java': 'json', 'bedrock': 'lang'}[edition]
+
     data = {}
 
     # Open JSON file
     print('Opening original file...')
-    match version:
+    match edition:
         case 'bedrock':
-            with open('original_GB.lang', 'r', encoding='utf-8') as f:
+            with open(input_file, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
                 for i in range(len(lines)):
                     lines[i] = lines[i].split('#')[0]
@@ -72,7 +102,7 @@ def main():
                     if not '=' in line: continue
                     data[line.split('=')[0]] = line.split('=')[1]
         case 'java':
-            with open('original.json', 'r', encoding='utf-8') as f:
+            with open(input_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
 
     names = set()
@@ -82,7 +112,7 @@ def main():
     # Find unique names
     print('Finding mobs and items...')
     for id in data:
-        match version:
+        match edition:
             case 'bedrock':
                 if id.startswith('tile.')        or\
                 id.startswith('item.')        or\
@@ -150,16 +180,16 @@ def main():
     # Write to file
     print('Saving...')
 
-    match version:
+    match edition:
         case 'bedrock':
-            with open('en_US.lang', 'w', encoding='utf-8') as f:
+            with open(output_file, 'w', encoding='utf-8') as f:
                 for datum in data:
                     f.write(f'{datum}={data[datum]}\n')
         case 'java':
-            with open('en_us.json', 'w', encoding='utf-8') as f:
+            with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(json.dumps(data))
 
     print('Done.')
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
