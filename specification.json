@@ -44,7 +44,10 @@
         "Multiplayer": "Multi Playment",
         "Option": "Optionment",
         "Bamboo": "Bamboozlement",
-        "Carrot": "Veggie Table"
+        "Carrot": "Veggie Table",
+        "String": "Stringment",
+        "Seeds": "Cum", 
+        "Dye": "Powder"
     },
 
     "specific_terms" : {
@@ -59,7 +62,6 @@
         "Blast Furnace": "Blastment Table",
         "Brewing Stand": "Brewment Table",
         "Note Block": "Attunement Table",
-        " Dye": "ment powder",
         "Quit Game": "Quitment",
         "Saving world": "World savement",
         "slain": "brutally murdered"
@@ -99,64 +101,17 @@
     "safe_words" :[
         "Table",
         "Box",
-        "Door",
-        "Ore",
-        "Gate",
-        "Heavy",
-        "Plate",
-        "Pane",
 
-        "Rod",
-        "Dust",
-        "Cane",
-        "Dye",
-        "String",
 
-        "Iron",
-        "Gold",
         "Lazuli",
-        "Ancient",
-        "Emerald",
-        "Quartz",
 
-        "White",
-        "Orange",
-        "Magenta",
         "Light",
-        "Blue",
-        "Yellow",
-        "Lime",
-        "Pink",
-        "Gray",
-        "Cyan",
-        "Purple",
-        "Brown",
-        "Green",
-        "Red",
-        "Black",
 
         "Big",
         "Small",
         "Raw",
         
         "Dark",
-        "Oak",
-        "Birch",
-        "Mangrove",
-        "Acacia",
-        "Spruce",
-        "Jungle",
-        "Azalea",
-
-        "Sea",
-        "Ocean",
-        
-        "Blossom",
-
-        "Quick",
-        "Power",
-        "Silk",
-        "Edge",
 
         "The",
         "You",

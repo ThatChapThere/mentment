@@ -57,18 +57,23 @@ def add_word(word, counter):
     else:               counter[word] =  1
 
 def main():
+    version = 'java'
     data = {}
 
     # Open JSON file
     print('Opening original file...')
-    #with open('original.json', 'r', encoding='utf-8') as f:
-    with open('original_GB.lang', 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-        for i in range(len(lines)):
-            lines[i] = lines[i].split('#')[0]
-        for line in lines:
-            if not '=' in line: continue
-            data[line.split('=')[0]] = line.split('=')[1]
+    match version:
+        case 'bedrock':
+            with open('original_GB.lang', 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+                for i in range(len(lines)):
+                    lines[i] = lines[i].split('#')[0]
+                for line in lines:
+                    if not '=' in line: continue
+                    data[line.split('=')[0]] = line.split('=')[1]
+        case 'java':
+            with open('original.json', 'r', encoding='utf-8') as f:
+                data = json.load(f)
 
     names = set()
     words = {}
@@ -77,13 +82,22 @@ def main():
     # Find unique names
     print('Finding mobs and items...')
     for id in data:
-        if id.startswith('tile.')        or\
-        id.startswith('item.')        or\
-        id.startswith('enchantment.') or\
-        id.startswith('entity.'):
-                if id == 'item.spawn_egg.entity.npc.failed': continue
-                if id.startswith('enchantment.level'):       continue
-                names.add(data[id])
+        match version:
+            case 'bedrock':
+                if id.startswith('tile.')        or\
+                id.startswith('item.')        or\
+                id.startswith('enchantment.') or\
+                id.startswith('entity.'):
+                    if id == 'item.spawn_egg.entity.npc.failed': continue
+                    if id.startswith('enchantment.level'):       continue
+                    names.add(data[id])
+            case 'java':
+                if 'block.minecraft.'       in id or\
+                'item.minecraft.'        in id or\
+                'enchantment.minecraft.' in id or\
+                'entity.minecraft.'      in id:
+                    names.add(data[id])
+                #'advancement.'          in id or\
 
     # Count words
     print('Finding words...')
@@ -135,9 +149,15 @@ def main():
 
     # Write to file
     print('Saving...')
-    with open('en_US.lang', 'w', encoding='utf-8') as f:
-        for datum in data:
-            f.write(f'{datum}={data[datum]}\n')
+
+    match version:
+        case 'bedrock':
+            with open('en_US.lang', 'w', encoding='utf-8') as f:
+                for datum in data:
+                    f.write(f'{datum}={data[datum]}\n')
+        case 'java':
+            with open('en_us.json', 'w', encoding='utf-8') as f:
+                f.write(json.dumps(data))
 
     print('Done.')
 
