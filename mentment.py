@@ -5,177 +5,14 @@ import sys, getopt
 # Ment
 MENT = 'ment'
 
-# Hardcoded words that are funnier when set to a specific thing
-specific_words = {
-    'Diamond': 'Diment',
-    'Stone': 'Atonement',
-    'Enderman': 'Enderment',
-    'Egg': 'Eggmond',
-    'Spawn': 'Spawnment',
-    'Leaves': 'Leafments',
-    'Armor': 'Armament',
-    'Trapped': 'Entrapment',
-    'Pickaxe': 'Pickment',
-    'Axe': 'Chopment',
-    'Shovel': 'Digment',
-    'Hoe': 'Tillment',
-    'Sword': 'Slayment',
-    'Lapis': 'Lapiss',
-    'Piston': 'Pissment Table',
-    'Anvil': 'Squishment Table',
-    'Trapdoor': 'Trapment Door',
-    'Lightning': 'Enlightenment',
-    'Deepslate': 'Deepment Slate',
-    'TNT': 'Explodement Table',
-    'Bed': 'Sleepment Table',
-    'Jukebox': 'Entertainment Table',
-    'Bed': 'Sleepment Table',
-    'Gunpowder': 'Explodement Powder',
-    'Grindstone': 'Grindment Table',
-    'Composter': 'Compostment Table',
-    'Barrel': 'Storement Table',
-    'Cauldron': 'Boilment Table',
-    'Lectern': 'Readment Table',
-    'Smoker': 'Smokement Table',
-    'Stonecutter': 'Atonement Cutment Table',
-    'Loom': 'Weavement Table',
-    'Furnace': 'Smeltment Table',
-    'Inventory': 'Inventorment',
-    'Remnant': 'Renment',
-    'Inventory': 'Inventorment',
-    'Remnant': 'Renment',
-    'Advancement': 'Advancementment',
-    'Ingredient': 'Ingrediment',
-    'Husbandry': 'Husbandment',
-    'Adventure': 'Adventurement',
-    'Bookshelf': 'Bookment Shelf',
-    'Combat': 'Combatment',
-    'Singleplayer': 'Single Playment',
-    'Multiplayer': 'Multi Playment',
-    'Option': 'Optionment',
-    'Bamboo': 'Bamboozlement',
-    'Carrot': 'Veggie Table',
-}
+with open('specification.json') as s:
+    specification = json.load(s)
 
-# Hardcoded multi-word terms
-specific_terms = {
-    'blew up': 'underwent explodement',
-    'was blown up by': 'underwent explodement thanks to',
-    'Back to Game': 'Returnment',
-    'Report Bugs': 'Bug Reportment',
-    'Give Feedback': 'Feedment Back',
-    'Save and Quit to Title': 'Savement and Quitment',
-    'Game Menu': 'Game Menument',
-    'Repair & Name': 'Squish & Squash',
-    'Blast Furnace': 'Blastment Table',
-    'Brewing Stand': 'Brewment Table',
-    'Note Block': 'Attunement Table',
-    ' Dye': 'ment powder',
-    'Quit Game': 'Quitment',
-    'Saving world': 'World savement',
-    'slain': 'brutally murdered',
-}
-
-# Word endings to replace with "-ment"
-suffixes = [
-    'ment', # Temporary!!!
-    'tion',
-    'ness',
-    'ity',
-    'ery',
-    'ing',
-
-    'ed',
-
-    'en',
-    'on',
-
-    'om',
-
-    'ar',
-    'er',
-    'or',
-
-    'et',
-
-    'ry',
-    'y',
-]
-
-# Hardcoded word segment replacers
-word_segment_replacers = {
-    'stone': ' Atonement',
-    'Nether': 'Nethment',
-    'Chest': 'Storement Box',
-}
-
-# Words that are less funny when changed
-safe_words =[
-    'Table',
-    'Box',
-    'Door',
-    'Ore',
-    'Gate',
-    'Heavy',
-    'Plate',
-    'Pane',
-
-    'Rod',
-    'Dust',
-    'Cane',
-    'Dye',
-    'String',
-
-    'Iron',
-    'Gold',
-    'Lazuli',
-    'Ancient',
-    'Emerald',
-    'Quartz',
-
-    'White',
-    'Orange',
-    'Magenta',
-    'Light',
-    'Blue',
-    'Yellow',
-    'Lime',
-    'Pink',
-    'Gray',
-    'Cyan',
-    'Purple',
-    'Brown',
-    'Green',
-    'Red',
-    'Black',
-
-    'Big',
-    'Small',
-    'Raw',
-    
-    'Dark',
-    'Oak',
-    'Birch',
-    'Mangrove',
-    'Acacia',
-    'Spruce',
-    'Jungle',
-    'Azalea',
-
-    'Sea',
-    'Ocean',
-    
-    'Blossom',
-
-    'Quick',
-    'Power',
-    'Silk',
-    'Edge',
-
-    'The',
-    'You',
-    'This',
-]
+specific_words         = specification['specific_words']
+specific_terms         = specification['specific_terms']
+suffixes               = specification['suffixes']
+word_segment_replacers = specification['word_segment_replacers']
+safe_words             = specification['safe_words']
 
 # Make suffixes only work at the end of words using regex
 for i in range(len(suffixes)): suffixes[i] += r'\b'
@@ -189,7 +26,7 @@ def suffixify(word):
 
 # Word mentment
 def mentment(word):
-    # If an safe word, don't change it at all
+    # If a safe word, don't change it at all
     if word in safe_words:
         return word
     # If we have a hardcoded word, set it to that
@@ -236,8 +73,6 @@ def main():
     names = set()
     words = {}
     replacement_terms = {}
-    materials = []
-    colours = []
 
     # Find unique names
     print('Finding mobs and items...')
@@ -247,6 +82,7 @@ def main():
         id.startswith('enchantment.') or\
         id.startswith('entity.'):
                 if id == 'item.spawn_egg.entity.npc.failed': continue
+                if id.startswith('enchantment.level'):       continue
                 names.add(data[id])
 
     # Count words
