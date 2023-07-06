@@ -1,4 +1,4 @@
-# mentment
+# Mentment
 Mentifies the English language in minecraft.
 
 The command should be something like:
