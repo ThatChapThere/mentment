@@ -1,1 +1,3 @@
 *.lang
+*.json
+!specification.json
