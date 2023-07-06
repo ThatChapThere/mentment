@@ -8,6 +8,7 @@
         "Spawn": "Spawnment",
         "Leaves": "Leafments",
         "Armor": "Armament",
+        "Armour": "Armament",
         "Trapped": "Entrapment",
         "Pickaxe": "Pickment",
         "Axe": "Chopment",
@@ -50,7 +51,8 @@
         "Seeds": "Cum", 
         "Knockback": "Knockment Back",
         "Crossbow": "Crossment Bowment",
-        "Dye": "Powder"
+        "Honeycomb": "Honement Comb",
+        "Froglight": "Frogment Lightment"
     },
 
     "specific_terms" : {
@@ -67,7 +69,8 @@
         "Note Block": "Attunement Table",
         "Quit Game": "Quitment",
         "Saving world": "World savement",
-        "slain": "brutallly murdered"
+        "slain": "brutallly murdered",
+        " Dye": "ment Powder"
     },
 
     "suffixes" : [
@@ -106,6 +109,22 @@
         "Table",
         "Box",
 
+        "White",
+        "Orange",
+        "Magenta",
+        "Light",
+        "Blue",
+        "Yellow",
+        "Lime",
+        "Pink",
+        "Gray",
+        "Grey",
+        "Cyan",
+        "Purple",
+        "Brown",
+        "Green",
+        "Red",
+        "Black",
 
         "Lazuli",
 

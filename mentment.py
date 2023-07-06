@@ -114,9 +114,10 @@ def main(argv):
     for id in data:
         match edition:
             case 'bedrock':
-                if id.startswith('tile.')        or\
+                if id.startswith('tile.')     or\
                 id.startswith('item.')        or\
                 id.startswith('enchantment.') or\
+                id.startswith('potion.')      or \
                 id.startswith('entity.'):
                     if id == 'item.spawn_egg.entity.npc.failed': continue
                     if id.startswith('enchantment.level'):       continue
